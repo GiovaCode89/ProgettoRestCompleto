@@ -1,0 +1,7 @@
+org/example/nuovoprogettohibernate/test/Test.class
+org/example/nuovoprogettohibernate/myentities/Persona.class
+org/example/nuovoprogettohibernate/dao/PersonaDaoImpl.class
+org/example/nuovoprogettohibernate/businesslogic/MyBusinessLogic.class
+org/example/nuovoprogettohibernate/myentities/Automobile.class
+org/example/nuovoprogettohibernate/dao/AutomobileDaoImpl.class
+org/example/nuovoprogettohibernate/dao/DaoInterface.class
