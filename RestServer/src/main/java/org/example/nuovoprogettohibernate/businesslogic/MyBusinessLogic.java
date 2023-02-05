@@ -3,8 +3,10 @@ package org.example.nuovoprogettohibernate.businesslogic;
 
 import javax.persistence.EntityManager;
 import org.example.nuovoprogettohibernate.dao.AutomobileDaoImpl;
+import org.example.nuovoprogettohibernate.dao.ImpresaDaoImpl;
 import org.example.nuovoprogettohibernate.dao.PersonaDaoImpl;
 import org.example.nuovoprogettohibernate.myentities.Automobile;
+import org.example.nuovoprogettohibernate.myentities.Impresa;
 import org.example.nuovoprogettohibernate.myentities.Persona;
 
 import java.util.List;
@@ -13,11 +15,13 @@ public class MyBusinessLogic {
     private EntityManager manager =null;
     private AutomobileDaoImpl automobileDao = null;
     private PersonaDaoImpl personaDao = null;
+    private ImpresaDaoImpl impresaDao=null;
 
     public MyBusinessLogic(EntityManager manager) {
         this.manager = manager;
         this.automobileDao= new AutomobileDaoImpl(manager);
         this.personaDao= new PersonaDaoImpl(manager);
+        this.impresaDao= new ImpresaDaoImpl(manager);
     }
 
     public void inserisciUnAutomobile (Automobile auto){
@@ -60,6 +64,28 @@ public class MyBusinessLogic {
         automobileDao.updateTwoAttributesInId1(marca,modello);
         manager.getTransaction().commit();
     }
+
+    public void inserisciUnImpresa (Impresa impresa){
+
+        manager.getTransaction().begin();
+        try{
+            impresaDao.create(impresa);
+            manager.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void cancellaUnImpresa (Impresa impresa){
+        manager.getTransaction().begin();
+        try{
+            impresaDao.delete(impresa);
+            manager.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

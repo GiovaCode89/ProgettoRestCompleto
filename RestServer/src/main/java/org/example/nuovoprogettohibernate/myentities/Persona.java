@@ -20,6 +20,10 @@ public class Persona {
     @Column(name="professione")
     private String mansione;
 
+    //TODO correggere 'mappedBy
+    @ManyToMany(mappedBy = "impresa")
+    private List <Impresa> imprese = null;
+
     @OneToMany
     private List<Automobile> listaAuto=null;
 
@@ -48,6 +52,14 @@ public class Persona {
 
     public Integer getId() {
         return id;
+    }
+
+    public List<Impresa> getImprese() {
+        return imprese;
+    }
+
+    public void setImprese(List<Impresa> imprese) {
+        this.imprese = imprese;
     }
 
     public String getNome() {

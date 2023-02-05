@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
 import org.example.nuovoprogettohibernate.businesslogic.MyBusinessLogic;
 import org.example.nuovoprogettohibernate.myentities.Automobile;
+import org.example.nuovoprogettohibernate.myentities.Impresa;
 import org.example.nuovoprogettohibernate.myentities.Persona;
 
 import java.util.List;
@@ -29,5 +30,7 @@ public class Test {
 
         bLogic.aggiornaDueAttributiToAutomobile("Mercedes","classe-A");
 
+        //Dovrebbe far partire la stampa di errore
+        bLogic.cancellaUnImpresa(new Impresa("Microsoft","Informatica"));
     }
 }
