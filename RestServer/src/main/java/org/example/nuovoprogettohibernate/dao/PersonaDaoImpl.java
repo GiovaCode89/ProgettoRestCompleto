@@ -28,11 +28,21 @@ public class PersonaDaoImpl implements DaoInterface<Persona> {
         return manager.find(Persona.class, id);
     }
 
-    //cancella attraverso l'attributo 'professione'
 
-    public void deleteByAttribute(String job) {
-        manager.createQuery("delete from Persona x where x.professione =:j").
-                setParameter("j", job).executeUpdate();
+    //cancella attraverso l'attributo 'cognome'
+
+    public void deleteByAttribute(String surname) {
+        switch (manager.createQuery("delete from Persona x where x.cognome =:c").
+                setParameter("c", surname).executeUpdate()) {
+            case 0:
+                System.out.println("Non ci sono record con attributo 'cognome' = " + surname);
+                break;
+            case 1:
+                System.out.println("Record cancellato con successo");
+                break;
+            default:
+                System.out.println("Record cancellati con successo");
+        }
     }
 
     //Recupera attraverso il nome
@@ -47,12 +57,32 @@ public class PersonaDaoImpl implements DaoInterface<Persona> {
 
     //Fà l'update di due attributi
     public void updateTwoAttributesInId1(String name, String surname) {
-        manager.createQuery("update Persona x set x.nome =:n, x.cognome =:s where x.id = 1").
-                setParameter("n", name).setParameter("s", surname).executeUpdate();
+        if(manager.createQuery("update Persona x set x.nome =:n, x.cognome =:s where x.id = 1").
+                setParameter("n", name).setParameter("s", surname).executeUpdate()==1){
+            System.out.println("Record aggiornato con successo");
+        }else{
+            System.out.println("Impossibile aggiornare la tabella, non vi è un record con id=1");
+        }
     }
 
+    //TODO riparare metodo
     public void delete(Persona object) {
-        manager.remove(object);
+        switch (manager.createQuery("delete from Persona x where x.nome =:n").
+                setParameter("n", object.getNome()).executeUpdate()) {
+            case 0:
+                System.out.println("Non vi sono record relativi all'oggetto passato");
+                break;
+            case 1:
+                System.out.println("Record cancellato con successo");
+                break;
+            default:
+                System.out.println("Record cancellati con successo");
+        }
+    }
+
+    public String aProiectionById(int id) {
+        return manager.createQuery("select x.nome from Persona x where x.id =:i",String.class).setParameter("i",id)
+                .getSingleResult();
     }
 
     public EntityManager getManager() {

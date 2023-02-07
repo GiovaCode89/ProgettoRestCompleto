@@ -5,9 +5,10 @@ import org.example.nuovoprogettohibernate.myentities.Impresa;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class ImpresaDaoImpl implements DaoInterface <Impresa>{
+public class ImpresaDaoImpl implements DaoInterface<Impresa> {
 
     private EntityManager manager = null;
+
     public ImpresaDaoImpl() {
     }
 
@@ -20,50 +21,70 @@ public class ImpresaDaoImpl implements DaoInterface <Impresa>{
     }
 
     public List<Impresa> retrieve() {
-        return manager.createQuery("select x from impresa x", Impresa.class).getResultList();
+        return manager.createQuery("select x from Impresa x", Impresa.class).getResultList();
     }
 
     public void create(Impresa object) {
         manager.persist(object);
     }
 
+
+    //TODO riparare metodo
     public void delete(Impresa object) {
-        if (manager.createQuery("delete x from impresa x where x.id =:i").setParameter("i",object.getId()).
-                executeUpdate() == 0){
-            System.out.println("Non c'è un record che abbia quel attributo nome!");
-        }else{
-            System.out.println("Record cancellati con successo");
+        switch (manager.createQuery("delete from Impresa x where x.nome like :n").setParameter("n", object.getNome())
+                .executeUpdate()) {
+            case 0:
+                System.out.println("Non c'è un record che abbia quel attributo nome!");
+                break;
+            case 1:
+                System.out.println("Record cancellato con successo");
+                break;
+            default:
+                System.out.println("Record cancellati con successo");
         }
     }
 
     //aggiorna gli attributi nome e tipo_impresa del record con id=1
     public void updateTwoAttributesInId1(String nome, String tipo) {
-        if (manager.createQuery("update impresa x set x.nome =:n, x.tipoImpresa=:t where x.id = 1").
-                setParameter("n",nome).setParameter("t",tipo).executeUpdate() ==0){
-            System.out.println("Non c'è un record che abbia id = 1!");
+        if (manager.createQuery("update Impresa x set x.nome =:n, x.tipoImpresa=:t where x.id = 1").
+                setParameter("n", nome).setParameter("t", tipo).executeUpdate()==1){
+            System.out.println("Record aggiornato con successo");
         }else{
-            System.out.println("Record cancellati con successo");
+            System.out.println("Non c'è un record che abbia id = 1!");
         }
     }
 
     //recupera attraverso l'attributo "nome"
     public List<Impresa> retrieveByAnAttribute(String nome) {
-        return manager.createQuery("select x from impresa x where x.nome =:n",Impresa.class).setParameter("n",nome)
+        return manager.createQuery("select x from Impresa x where x.nome =:n", Impresa.class).setParameter("n", nome)
                 .getResultList();
     }
 
     public Impresa retrieveForId(int id) {
-        return  manager.createQuery("select x from impresa x where x.id =:i",Impresa.class).setParameter("i",id)
+        return manager.createQuery("select x from Impresa x where x.id =:i", Impresa.class).setParameter("i", id)
                 .getSingleResult();
     }
 
 
     //cancella considerando l'attributo "nome"
     public void deleteByAttribute(String nome) {
-        if (manager.createQuery("delete x from impresa x where x.nome =:n").setParameter("n",nome).executeUpdate() ==0){
-            System.out.println("Non c'è un record che abbia quel attributo nome!");
-        }else{
-            System.out.println("Record cancellati con successo");
+        switch (manager.createQuery("delete x from Impresa x where x.nome =:n").setParameter("n", nome)
+                .executeUpdate()) {
+            case 0:
+                System.out.println("Non vi sono record che hanno quello specifico 'nome'");
+                break;
+            case 1:
+                System.out.println("Record cancellato con successo");
+                break;
+            default:
+                System.out.println("Record cancellati con successo");
         }
+    }
+
+    //proiezione sull'attributo 'tipo_impresa'
+    public String aProiectionById(int id) {
+        return manager.createQuery("select x.tipoImpresa from Impresa x where x.id =:i", String.class)
+                .setParameter("i", id).getSingleResult();
+
     }
 }

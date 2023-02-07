@@ -13,4 +13,6 @@ public interface DaoInterface <T>{
     public T retrieveForId(int id);
     public void deleteByAttribute (String a);
 
+    public String aProiectionById(int id);
+
 }

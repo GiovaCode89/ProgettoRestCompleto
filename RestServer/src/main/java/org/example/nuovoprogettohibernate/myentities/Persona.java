@@ -17,11 +17,10 @@ public class Persona {
     private String cognome;
     private Integer eta;
 
-    @Column(name="professione")
-    private String mansione;
+
 
     //TODO correggere 'mappedBy
-    @ManyToMany(mappedBy = "impresa")
+    @ManyToMany(mappedBy = "persone")
     private List <Impresa> imprese = null;
 
     @OneToMany
@@ -35,18 +34,16 @@ public class Persona {
         this.cognome = cognome;
     }
 
-    public Persona(String nome, String cognome, Integer eta, String mansione) {
+    public Persona(String nome, String cognome, Integer eta) {
         this.nome = nome;
         this.cognome = cognome;
         this.eta = eta;
-        this.mansione = mansione;
     }
 
-    public Persona(String nome, String cognome, Integer eta, String mansione, List<Automobile> listaAuto) {
+    public Persona(String nome, String cognome, Integer eta, List<Automobile> listaAuto) {
         this.nome = nome;
         this.cognome = cognome;
         this.eta = eta;
-        this.mansione = mansione;
         this.listaAuto = listaAuto;
     }
 
@@ -84,14 +81,6 @@ public class Persona {
 
     public void setEta(Integer eta) {
         this.eta = eta;
-    }
-
-    public String getMansione() {
-        return mansione;
-    }
-
-    public void setMansione(String mansione) {
-        this.mansione = mansione;
     }
 
     public List<Automobile> getListaAuto() {
